@@ -1,3 +1,3 @@
 # CODEWAY
-Git Repository for CODEWAY Java Development Internship
+Git Repository for CODEWAY Java Development Internship.
 Author- Ishan Rai
