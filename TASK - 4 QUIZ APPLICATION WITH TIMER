@@ -1,0 +1,75 @@
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class QuizApplication {
+    static String[] questions = {
+            "What is the capital of France?",
+            "Who wrote 'To Kill a Mockingbird'?",
+            "What is the chemical symbol for water?",
+            "Which planet is known as the Red Planet?",
+            "What is the largest mammal in the world?"
+    };
+
+    static String[][] options = {
+            {"A. London", "B. Paris", "C. Rome", "D. Madrid"},
+            {"A. Mark Twain", "B. Harper Lee", "C. J.K. Rowling", "D. Charles Dickens"},
+            {"A. Wo", "B. Wa", "C. H2O", "D. Hy"},
+            {"A. Venus", "B. Mars", "C. Jupiter", "D. Saturn"},
+            {"A. Elephant", "B. Blue Whale", "C. Giraffe", "D. Polar Bear"}
+    };
+
+    static char[] answers = {'B', 'B', 'C', 'B', 'B'};
+    static int score = 0;
+    static int currentQuestion = 0;
+    static Timer timer;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Quiz Application!");
+
+        for (int i = 0; i < questions.length; i++) {
+            presentQuestion(i, scanner);
+        }
+
+        System.out.println("Quiz Completed!");
+        System.out.println("Your final score is: " + score + "/" + questions.length);
+
+        scanner.close();
+    }
+
+    public static void presentQuestion(int questionNumber, Scanner scanner) {
+        System.out.println("\nQuestion " + (questionNumber + 1) + ": " + questions[questionNumber]);
+        for (String option : options[questionNumber]) {
+            System.out.println(option);
+        }
+
+        startTimer(scanner);
+        char userAnswer = scanner.next().toUpperCase().charAt(0);
+
+        if (userAnswer == answers[questionNumber]) {
+            System.out.println("Correct!");
+            score++;
+        } else {
+            System.out.println("Incorrect! The correct answer is: " + answers[questionNumber]);
+        }
+
+        timer.cancel();
+    }
+
+    public static void startTimer(Scanner scanner) {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                System.out.println("\nTime's up!");
+                System.out.println("Please enter your answer: ");
+                scanner.next(); // Clear input buffer
+                timer.cancel();
+            }
+        };
+
+        timer = new Timer();
+        timer.schedule(task, 15000); // Timer set to 15 seconds
+        System.out.println("\nYou have 15 seconds to answer.");
+    }
+}
